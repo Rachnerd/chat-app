@@ -1,2 +1,2 @@
-<ws-chat-list></ws-chat-list>
-<ws-chat-form></ws-chat-form>
+<ws-chat-list [messages]="messages"></ws-chat-list>
+<ws-chat-form (send)="onSend($event)"></ws-chat-form>

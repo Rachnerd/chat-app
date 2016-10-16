@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ChatMessage } from './shared/chat-message.model';
 
 @Component({
   selector: 'ws-chat',
@@ -6,10 +7,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./chat.component.scss']
 })
 export class ChatComponent implements OnInit {
-
+  messages: Array<ChatMessage> = [];
   constructor() { }
 
   ngOnInit() {
   }
-
+  onSend(content: string): void {
+    this.messages.push(new ChatMessage(content));
+  }
 }

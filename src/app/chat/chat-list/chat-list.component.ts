@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { ChatMessage } from '../shared/chat-message.model';
 
 @Component({
   selector: 'ws-chat-list',
@@ -6,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./chat-list.component.scss']
 })
 export class ChatListComponent implements OnInit {
+  @Input() messages: Array<ChatMessage>;
 
   constructor() { }
 
