@@ -36,21 +36,31 @@ Add ChatList and ChatForm to the template of ChatComponent
 
 #### 1.3 Implementing ChatForm
 ChatForm is supposed to be a "dumb" component so it will communicate to its parent with events.
-The (ngSubmit) directives emits a send event containing the value of the local template variable #message.
+The (ngSubmit) directives emits a send event containing the value of the local template variable #inputRef.
 ```
-import { EventEmitter, Output, Component } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 
 @Component({
     selector: 'ws-chat-form',
-    template: `
-        <form (ngSubmit)="send.emit(message.value)">
-            <input #message/>
-        </form>
-    `
+    templateUrl: './chat-form.component.html',
+    styleUrls: ['./chat-form.component.scss']
 })
-export class ChatFormComponent {
-    @Output() send: EventEmitter<string> = new EventEmitter<string>();
+export class ChatFormComponent implements OnInit {
+    @Output() send: EventEmitter<string>
+        = new EventEmitter<string>();
+
+    constructor() {
+    }
+
+    ngOnInit() {
+    }
 }
+
+```
+```
+<form (ngSubmit)="send.emit(inputRef.value)">
+  <input #inputRef/>
+</form>
 ```
 
 #### 1.4 Listening to ChatForm
@@ -94,22 +104,28 @@ Implement onSend by creating a new ChatMessage and pushing it to the messages.
 ```
 
 ```
-import { Component } from '@angular/core';
-import { ChatMessage } from './shared/chat.model';
+import { Component, OnInit } from '@angular/core';
+import { ChatMessage } from './shared/chat-message.model';
 
 @Component({
-    selector: 'ws-chat',
-    template: `
-        <ws-chat-list></ws-chat-list>
-        <ws-chat-form (send)="onSend($event)"></ws-chat-form>
-    `
+  selector: 'ws-chat',
+  templateUrl: './chat.component.html',
+  styleUrls: ['./chat.component.scss']
 })
-export class ChatComponent {
-    messages: Array<ChatMessage> = [];
-    onSend(content: string): void {
-        this.messages.push(new ChatMessage(content));
-    }
+export class ChatComponent implements OnInit {
+  messages: Array<ChatMessage> = [];
+  constructor() { }
+
+  ngOnInit() {
+  }
+  onSend(content: string): void {
+    this.messages.push(new ChatMessage(content));
+  }
 }
+```
+```
+<ws-chat-list></ws-chat-list>
+<ws-chat-form (send)="onSend($event)"></ws-chat-form>
 ```
 #### 1.6 Preparing ChatList
 It's ChatList's responsibility to display ChatMessages.
