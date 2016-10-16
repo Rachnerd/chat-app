@@ -204,8 +204,3 @@ export class ChatComponent implements OnInit {
 <ws-chat-list [messages]="messages"></ws-chat-list>
 <ws-chat-form (send)="onSend($event)"></ws-chat-form>
 ```
-
-#### Bonus
-```
-Create a submit handler for ChatForm that emits the send event and clears the input (HTMLInputElement).
-```
