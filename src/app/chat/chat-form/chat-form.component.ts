@@ -1,18 +1,15 @@
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
     selector: 'ws-chat-form',
     templateUrl: './chat-form.component.html',
     styleUrls: ['./chat-form.component.scss']
 })
-export class ChatFormComponent implements OnInit {
+export class ChatFormComponent {
     @Output() send: EventEmitter<string>
         = new EventEmitter<string>();
 
     constructor() {
-    }
-
-    ngOnInit() {
     }
 
     onSubmit(input: HTMLInputElement) {

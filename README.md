@@ -204,3 +204,54 @@ export class ChatComponent implements OnInit {
 <ws-chat-list [messages]="messages"></ws-chat-list>
 <ws-chat-form (send)="onSend($event)"></ws-chat-form>
 ```
+
+## Unit testing
+
+#### 2.1 ChatForm initial setup
+Here follows the initial setup for testing ChatForm:
+```
+describe('Component: ChatForm', () => {
+    let chatFormComponent: ChatFormComponent;
+    let fixture: ComponentFixture<ChatFormComponent>;
+    let chatFormElement: DebugElement;
+
+    beforeEach(() => {
+        TestBed.configureTestingModule({
+            declarations: [
+                ChatFormComponent
+            ],
+        });
+        fixture = TestBed.createComponent(ChatFormComponent);
+        chatFormComponent = fixture.debugElement.componentInstance;
+        chatFormElement = fixture.debugElement;
+    });
+});
+```
+#### 2.2 ChatForm tests
+ChatForm has a side effect when submitting its content. It clears the input field.
+```
+it('should clear the input on submit', async(() => {
+    let inputElement = chatFormElement.query(By.css('input')).nativeElement;
+    let formDebugElement = chatFormElement.query(By.css('form'));
+    inputElement.value = 'test';
+    formDebugElement.triggerEventHandler('ngSubmit', inputElement);
+    fixture.detectChanges();
+    expect(inputElement.value).toEqual('');
+}));
+```
+We query the input element from the template and set its value.
+Then we call the onSubmit handler of the component and check if the input element's value is cleared.
+
+Besides clearing the input a send event is emitted.
+
+```
+it('should emit the send event containing the input value on submit', async(() => {
+    let inputElement = chatFormElement.query(By.css('input')).nativeElement;
+    let formDebugElement = chatFormElement.query(By.css('form'));
+    const sendSpy = createSpy('sendSpy');
+    inputElement.value =  'test';
+    chatFormComponent.send.subscribe(sendSpy);
+    formDebugElement.triggerEventHandler('ngSubmit', inputElement);
+    expect(sendSpy).toHaveBeenCalledWith('test');
+}));
+```
