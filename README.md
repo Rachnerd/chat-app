@@ -39,27 +39,29 @@ Add ChatList and ChatForm to the template of ChatComponent
 ChatForm is supposed to be a "dumb" component so it will communicate to its parent with events.
 The (ngSubmit) directives emits a send event containing the value of the local template variable #inputRef.
 ```
-import { Component, OnInit, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
     selector: 'ws-chat-form',
     templateUrl: './chat-form.component.html',
     styleUrls: ['./chat-form.component.scss']
 })
-export class ChatFormComponent implements OnInit {
+export class ChatFormComponent {
     @Output() send: EventEmitter<string>
         = new EventEmitter<string>();
 
     constructor() {
     }
 
-    ngOnInit() {
+    onSubmit(input: HTMLInputElement) {
+        this.send.emit(input.value);
+        input.value = '';
     }
 }
 
 ```
 ```
-<form (ngSubmit)="send.emit(inputRef.value)">
+<form (ngSubmit)="onSubmit(inputRef)">
   <input #inputRef/>
 </form>
 ```
@@ -71,20 +73,32 @@ Create a method in ChatComponent called onSend(message: string).
 Listen to the send event of ChatForm by assigning it onSend($event).
 ```
 ```
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ChatMessage } from './shared/chat-message.model';
 
 @Component({
-  selector: 'ws-chat',
-  template: `
-        <ws-chat-list></ws-chat-list>
-        <ws-chat-form (send)="onSend($event)"></ws-chat-form>
-    `
+    selector: 'ws-chat',
+    templateUrl: './chat.component.html',
+    styleUrls: ['./chat.component.scss']
 })
-export class ChatComponent {
-  onSend(content: string): void {
-    console.log(content);
-  }
+export class ChatComponent implements OnInit {
+    messages: Array<ChatMessage> = [];
+
+    constructor() {
+    }
+
+    ngOnInit() {
+    }
+
+    onSend(content: string): void {
+        console.log(content);
+    }
 }
+
+```
+```
+<ws-chat-list></ws-chat-list>
+<ws-chat-form (send)="onSend($event)"></ws-chat-form>
 ```
 
 #### 1.5 Keeping track of ChatMessages
@@ -137,18 +151,26 @@ Display the chat messages by looping through them with help of *ngFor.
 
 ```
 import { Component, Input } from '@angular/core';
+import { ChatMessage } from '../shared/chat-message.model';
 
 @Component({
     selector: 'ws-chat-list',
-    template: `
-        <div *ngFor="let message of messages">
-           {{ message.content }}
-        </div>
-    `
+    templateUrl: './chat-list.component.html',
+    styleUrls: ['./chat-list.component.scss']
 })
 export class ChatListComponent {
     @Input() messages: Array<ChatMessage>;
+
+    constructor() {
+    }
 }
+
+```
+
+```
+<div *ngFor="let message of messages">
+  {{ message.content }}
+</div>
 ```
 
 #### 1.7 Data-bind ChatList
@@ -159,19 +181,22 @@ import { Component, OnInit } from '@angular/core';
 import { ChatMessage } from './shared/chat-message.model';
 
 @Component({
-  selector: 'ws-chat',
-  templateUrl: './chat.component.html',
-  styleUrls: ['./chat.component.scss']
+    selector: 'ws-chat',
+    templateUrl: './chat.component.html',
+    styleUrls: ['./chat.component.scss']
 })
 export class ChatComponent implements OnInit {
-  messages: Array<ChatMessage> = [];
-  constructor() { }
+    messages: Array<ChatMessage> = [];
 
-  ngOnInit() {
-  }
-  onSend(content: string): void {
-    this.messages.push(new ChatMessage(content));
-  }
+    constructor() {
+    }
+
+    ngOnInit() {
+    }
+
+    onSend(content: string): void {
+        this.messages.push(new ChatMessage(content));
+    }
 }
 
 ```
