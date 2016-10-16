@@ -1,4 +1,5 @@
-# Workshop
+# Components
+[Presentation slide](http://slides.com/rachnerd/deck-1#/3/22)
 ```
 ng generate component chat
 ng generate component chat/chat-list
