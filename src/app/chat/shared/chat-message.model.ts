@@ -1,3 +1,3 @@
 export class ChatMessage {
-    constructor(private content: string) {}
+    constructor(public content: string, public username) {}
 }

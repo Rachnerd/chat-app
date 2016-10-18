@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { ChatFormComponent } from './chat/chat-form/chat-form.component';
 import { ChatListComponent } from './chat/chat-list/chat-list.component';
 import { ChatComponent } from './chat/chat.component';
+import { ChatService } from './chat/shared/chat.service';
 
 @NgModule({
     declarations: [
@@ -20,7 +21,9 @@ import { ChatComponent } from './chat/chat.component';
         FormsModule,
         HttpModule
     ],
-    providers: [],
+    providers: [
+        ChatService
+    ],
     bootstrap: [AppComponent]
 })
 export class AppModule {
