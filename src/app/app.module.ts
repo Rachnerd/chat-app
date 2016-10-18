@@ -8,6 +8,8 @@ import { ChatFormComponent } from './chat/chat-form/chat-form.component';
 import { ChatListComponent } from './chat/chat-list/chat-list.component';
 import { ChatComponent } from './chat/chat.component';
 import { ChatService } from './chat/shared/chat.service';
+import { EXTERNAL_URL } from './tokens';
+
 
 @NgModule({
     declarations: [
@@ -22,6 +24,10 @@ import { ChatService } from './chat/shared/chat.service';
         HttpModule
     ],
     providers: [
+        {
+            provide: EXTERNAL_URL,
+            useValue: 'https://rachnerd-angular2-chat.herokuapp.com/api'
+        },
         ChatService
     ],
     bootstrap: [AppComponent]

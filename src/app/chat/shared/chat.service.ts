@@ -1,8 +1,9 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { Http, Response } from '@angular/http';
 import { ChatMessage } from './chat-message.model';
 import { Observable, Subject } from 'rxjs';
 import 'rxjs/add/operator/map';
+import { EXTERNAL_URL } from '../../tokens';
 
 @Injectable()
 export class ChatService {
@@ -11,15 +12,17 @@ export class ChatService {
 
     public sendMessage$: Observable<ChatMessage>;
     private sendMessageSubject: Subject<ChatMessage> = new Subject<ChatMessage>();
+    private url: string;
 
-    constructor(private http: Http) {
+    constructor(@Inject(EXTERNAL_URL) url: string, private http: Http) {
         this.messages$ = this.messagesSubject.asObservable();
         this.sendMessage$ = this.sendMessageSubject.asObservable();
+        this.url = url + '/chat';
     }
 
     public fetchMessages(): void {
         this.http
-            .get('http://localhost:5000/api/chat')
+            .get(this.url)
             .map((res: Response) => res.json())
             .subscribe(
                 messages => this.messagesSubject.next(messages),
@@ -29,8 +32,8 @@ export class ChatService {
 
     public sendMessage(message: ChatMessage): void {
         this.http
-            .post('http://localhost:5000/api/chat', message)
-            .map((res: Response) => res.json().location)
+            .post(this.url, message)
+            .map((res: Response) => res.json().id)
             .switchMap(this.getMessageById)
             .map((res: Response) => res.json())
             .subscribe(
@@ -40,8 +43,8 @@ export class ChatService {
         ;
     }
 
-    private getMessageById = (location: string) => {
-        return this.http.get('http://localhost:5000/' + location);
+    private getMessageById = (id: string) => {
+        return this.http.get(this.url + '/' + id);
     }
 
 }
