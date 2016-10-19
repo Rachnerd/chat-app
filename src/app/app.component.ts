@@ -14,6 +14,5 @@ export class AppComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        this.chatService.fetchMessages();
     }
 }
