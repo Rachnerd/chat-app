@@ -92,7 +92,7 @@ can be made simple by implementing it like this.
 
 ###### Are there any alternatives to this?
 Yes Redux (ngstore for Angular 2). This framework creates a single state
-that makes state management even easier. Unfortunately Redux is out of scope for this workshop, but definitly
+that makes state management even easier. Unfortunately Redux is out of scope for this workshop, but definitely
 worth mentioning.
 
 #### 3.7 Get rid of the hardcoded url by using provide.
