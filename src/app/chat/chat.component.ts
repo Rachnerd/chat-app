@@ -40,6 +40,6 @@ export class ChatComponent implements OnInit, OnDestroy {
     };
 
     private addMessage = (message: ChatMessage) => {
-        this.messages.push(message);
+        this.messages = [message, ...this.messages]
     };
 }
