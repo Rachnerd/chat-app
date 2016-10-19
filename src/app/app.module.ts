@@ -3,13 +3,13 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
+import { MaterialModule } from '@angular/material';
 import { AppComponent } from './app.component';
 import { ChatFormComponent } from './chat/chat-form/chat-form.component';
 import { ChatListComponent } from './chat/chat-list/chat-list.component';
 import { ChatComponent } from './chat/chat.component';
 import { ChatService } from './chat/shared/chat.service';
 import { EXTERNAL_URL } from './tokens';
-import { HomeComponent } from './home/home.component';
 import { WsChatAppRoutingModule } from './app-routing.module';
 
 
@@ -19,13 +19,13 @@ import { WsChatAppRoutingModule } from './app-routing.module';
         ChatComponent,
         ChatListComponent,
         ChatFormComponent,
-        HomeComponent
     ],
     imports: [
         BrowserModule,
         FormsModule,
         HttpModule,
-        WsChatAppRoutingModule
+        WsChatAppRoutingModule,
+        MaterialModule.forRoot()
     ],
     providers: [
         {
