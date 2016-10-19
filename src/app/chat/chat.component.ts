@@ -27,7 +27,6 @@ export class ChatComponent implements OnInit, OnDestroy {
     }
 
     public ngOnInit(): void {
-        this.chatService.fetchMessages();
     }
 
     public ngOnDestroy(): void {
