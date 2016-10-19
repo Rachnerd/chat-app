@@ -9,6 +9,8 @@ import { ChatListComponent } from './chat/chat-list/chat-list.component';
 import { ChatComponent } from './chat/chat.component';
 import { ChatService } from './chat/shared/chat.service';
 import { EXTERNAL_URL } from './tokens';
+import { HomeComponent } from './home/home.component';
+import { WsChatAppRoutingModule } from './app-routing.module';
 
 
 @NgModule({
@@ -16,12 +18,14 @@ import { EXTERNAL_URL } from './tokens';
         AppComponent,
         ChatComponent,
         ChatListComponent,
-        ChatFormComponent
+        ChatFormComponent,
+        HomeComponent
     ],
     imports: [
         BrowserModule,
         FormsModule,
-        HttpModule
+        HttpModule,
+        WsChatAppRoutingModule
     ],
     providers: [
         {
