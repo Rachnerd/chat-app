@@ -5,6 +5,9 @@ import { Observable, Subject } from 'rxjs';
 import 'rxjs/add/operator/map';
 import { EXTERNAL_URL } from '../../tokens';
 
+const json = (res: Response): any => res.json();
+const logError = (error: Response) => console.error(error);
+
 @Injectable()
 export class ChatService {
     public messages$: Observable<Array<ChatMessage>>;
@@ -23,28 +26,37 @@ export class ChatService {
     public fetchMessages(): void {
         this.http
             .get(this.url)
-            .map((res: Response) => res.json())
-            .subscribe(
-                messages => this.messagesSubject.next(messages),
-                (error: Response) => console.error(error)
-            );
+            .map(json)
+            .subscribe(this.nextMessages, logError);
     }
 
     public sendMessage(message: ChatMessage): void {
-        this.http
-            .post(this.url, message)
-            .map((res: Response) => res.json().id)
+        this.postMessage(message)
             .switchMap(this.getMessageById)
-            .map((res: Response) => res.json())
-            .subscribe(
-                (message: ChatMessage) => this.sendMessageSubject.next(message),
-                (error: Response) => console.error(error)
-            )
+            .subscribe(this.nextSendMessage, logError)
         ;
     }
+    private nextMessages = (messages: Array<ChatMessage>): void  => {
+        this.messagesSubject.next(messages);
+    };
 
-    private getMessageById = (id: string) => {
-        return this.http.get(this.url + '/' + id);
-    }
+    private postMessage = (message: ChatMessage): Observable<string> => {
+        return this.http
+            .post(this.url, message)
+            .map(json)
+            .map(this.toId);
+    };
 
+    private toId = (obj: {id: string}): string => {
+        return obj.id;
+    };
+
+    private getMessageById = (id: string): Observable<string> => {
+        return this.http.get(this.url + '/' + id)
+            .map(json);
+    };
+
+    private nextSendMessage = (message: ChatMessage): void => {
+        this.sendMessageSubject.next(message);
+    };
 }
