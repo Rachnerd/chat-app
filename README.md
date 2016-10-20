@@ -48,4 +48,35 @@ ws-chat {
 Replace the content of one md-grid-tile with router-outlet and the others with a named outlet.
 ```
 
-####
+####4.5 Create more components
+######UserListComponent
+```
+/api/user returns a list of {username: string, image: string}.
+```
+######PrivateChatComponent (2 or more people required)
+```
+There are some sockets available for 1 on 1 communication.
+Install:
+npm i --save socketio
+typings install --save --global dt~socket.io-client
+
+Socket events:
+const io = require('socket.io-client');
+const socket = io('https://rachnerd-angular2-chat.herokuapp.com', { query: "username=Rachnerd" });
+socket.emit('send-private-chat-message', {
+    receiver: 'Rachnerd',
+    content: 'Wut'
+});
+// Receive a message from someone else containing content and a room
+socket.on('receive-private-chat-message', (message) => {
+    console.log(message);
+});
+// Receive general chat posts instant (can replace the post + get by id)
+socket.on('message-created', (message) => {
+    console.log(message);
+});
+```
+```
+Utilize Rxjs for awesome data streams!!
+Observable.fromEvent(socket, 'message-created')
+```

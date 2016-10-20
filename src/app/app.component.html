@@ -1,4 +1,8 @@
 <md-toolbar color="primary">
     <span>{{title}}</span>
 </md-toolbar>
-<router-outlet></router-outlet>
+<md-grid-list cols="4">
+    <md-grid-tile colspan="3"><router-outlet></router-outlet></md-grid-tile>
+    <md-grid-tile rowspan="2">Two</md-grid-tile>
+    <md-grid-tile colspan="3">Three</md-grid-tile>
+</md-grid-list>

@@ -5,6 +5,7 @@ import { Observable, Subject } from 'rxjs';
 import 'rxjs/add/operator/map';
 import { EXTERNAL_URL } from '../../tokens';
 import { json, logError } from '../../shared/utils';
+const io = require('socket.io-client');
 
 @Injectable()
 export class ChatService {
@@ -19,6 +20,17 @@ export class ChatService {
         this.messages$ = this.messagesSubject.asObservable();
         this.sendMessage$ = this.sendMessageSubject.asObservable();
         this.url = url + '/chat';
+        const socket = io('https://rachnerd-angular2-chat.herokuapp.com', { query: "username=Rachnerd" });
+        socket.emit('send-private-chat-message', {
+            receiver: 'Rachnerd',
+            content: 'Wut'
+        });
+        socket.on('receive-private-chat-message', (message) => {
+            console.log(message);
+        });
+        socket.on('message-created', (message) => {
+            console.log(message);
+        });
     }
 
     public fetchMessages(): void {
