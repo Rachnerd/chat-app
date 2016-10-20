@@ -15,7 +15,7 @@ Hook up ChatComponent to the '' path in app-routing.module.
     component: ChatComponent
 }
 ```
-####4.3 Display the result
+####4.3 Display the resultd
 ```
 Replace app.component.html with <router-outlet></router-outlet>
 ```
