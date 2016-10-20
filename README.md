@@ -1,5 +1,5 @@
 # Routing
-[Presentation slide](http://slides.com/rachnerd/deck-1#/3/50)
+[Presentation slide](http://slides.com/rachnerd/deck-1#/3/51)
 ```
 ng generate component home
 ```
