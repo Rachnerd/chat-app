@@ -1,5 +1,5 @@
 # Components
-[Presentation slide](http://slides.com/rachnerd/deck-1#/3/40)
+[Presentation slide](http://slides.com/rachnerd/deck-1#/3/41)
 ```
 ng generate service chat/shared/chat
 ng serve
