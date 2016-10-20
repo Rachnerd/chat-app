@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ChatMessage } from './shared/chat-message.model';
 import { ChatService } from './shared/chat.service';
 import { Subscription } from 'rxjs/Rx';
+import { logError } from '../shared/utils';
 
 @Component({
     selector: 'ws-chat',
@@ -15,18 +16,13 @@ export class ChatComponent implements OnInit, OnDestroy {
 
     constructor(private chatService: ChatService) {
         this.messagesSubscription = this.chatService.messages$
-            .subscribe(
-                messages => this.messages = messages,
-                error => console.error(error)
-            );
+            .subscribe(this.setMessages, logError);
         this.sendMessageSubscription = this.chatService.sendMessage$
-            .subscribe(
-                (message: ChatMessage) => this.messages = [message, ...this.messages],
-                (error: any) => console.error(error)
-            );
+            .subscribe(this.addMessage, logError);
     }
 
     public ngOnInit(): void {
+        this.chatService.fetchMessages();
     }
 
     public ngOnDestroy(): void {
@@ -38,4 +34,12 @@ export class ChatComponent implements OnInit, OnDestroy {
     public onSend(content: string): void {
         this.chatService.sendMessage(new ChatMessage(content, 'ChatApp'));
     }
+
+    private setMessages = (messages: Array<ChatMessage>) => {
+        this.messages = messages
+    };
+
+    private addMessage = (message: ChatMessage) => {
+        this.messages = [...this.messages, message];
+    };
 }

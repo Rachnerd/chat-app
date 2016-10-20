@@ -4,9 +4,7 @@ import { ChatMessage } from './chat-message.model';
 import { Observable, Subject } from 'rxjs';
 import 'rxjs/add/operator/map';
 import { EXTERNAL_URL } from '../../tokens';
-
-const json = (res: Response): any => res.json();
-const logError = (error: Response) => console.error(error);
+import { json, logError } from '../../shared/utils';
 
 @Injectable()
 export class ChatService {
