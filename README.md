@@ -4,6 +4,8 @@
 ng generate service chat/shared/chat
 ng serve
 ```
+##URL https://rachnerd-angular2-chat.herokuapp.com/
+
 #### 2.1 Provide the ChatService
 ```
 Add ChatService to providers of AppModule.
