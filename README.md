@@ -3,11 +3,11 @@
 ```
 ng generate component home
 ```
-####4.1 WsChatAppRoutingModule
+####3.1 WsChatAppRoutingModule
 ```
 Add WsChatAppRoutingModule to the imports of AppModule.
 ```
-####4.2 Configure route
+####3.2 Configure route
 ```
 Hook up ChatComponent to the '' path in app-routing.module.
 {
@@ -15,14 +15,14 @@ Hook up ChatComponent to the '' path in app-routing.module.
     component: ChatComponent
 }
 ```
-####4.3 Display the resultd
+####3.3 Display the resultd
 ```
 Replace app.component.html with <router-outlet></router-outlet>
 ```
 
 The chat should be back now. Nothing visual changed because we currently have 1 router-outlet.
 
-####4.4 Other outlets
+####3.4 Other outlets
 ```
 Create a gridlayout in app.component.html using Angular material 2.
 Make sure there are at least 2 reserved spaces.
@@ -48,7 +48,7 @@ ws-chat {
 Replace the content of one md-grid-tile with router-outlet and the others with a named outlet.
 ```
 
-####4.5 Create more components
+####3.5 Create more components
 ######UserListComponent
 ```
 /api/user returns a list of {username: string, image: string}.
