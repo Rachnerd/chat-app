@@ -1,28 +1,28 @@
-# Service
+# Components
 [Presentation slide](http://slides.com/rachnerd/deck-1#/3/41)
 ```
 ng generate service chat/shared/chat
 ng serve
 ```
-#### 3.1 Provide the ChatService
+#### 2.1 Provide the ChatService
 ```
 Add ChatService to providers of AppModule.
 ```
 
-#### 3.2 Implement sendMessage and getMessages
+#### 2.2 Implement sendMessage and getMessages
 ```
 Inject Http into ChatComponent.
 Create the 2 instance methods.
 Both return an Observable, sendMessage: Observable<string>, getMessages: Observable<Array<ChatMessage>>
 ```
 
-#### 3.3 Use both methods in ChatComponent
+#### 2.3 Use both methods in ChatComponent
 ```
 onSend calls sendMessage and appends the message to the messages
 ngOnInit calls getMessages and sets its messages.
 ```
 
-#### 3.4 Problems
+#### 2.4 Problems
 onSend will push an incomplete message. The post request would return a location header, but due to the
 current state of Angular 2 this isn't possible. Instead a json object {id: number} is returned.
 ```
@@ -34,7 +34,7 @@ Update the sendMessage stream so it:
 - .map that response to json to get the ChatMessage
 ```
 
-#### 3.5 More problems!
+#### 2.5 More problems!
 The current setup feels pretty straightforward, but is the worst way of handling state. Let's fix getMessages
 first.
 ```
@@ -73,7 +73,7 @@ In ChatComponent subscribe messages$ instead of getMessages and call getMessages
 We did it! Currently everybody with access to the ChatService can fetch new messages and listeners like ChatComponent
 get updated automatically!
 
-#### 3.6 sendMessages
+#### 2.6 sendMessages
 ```
 Do the same for sendMessages.
 - Create sendMessageSubject: Subject<ChatMessage>
@@ -95,7 +95,7 @@ Yes Redux (ngstore for Angular 2). This framework creates a single state
 that makes state management even easier. Unfortunately Redux is out of scope for this workshop, but definitely
 worth mentioning.
 
-#### 3.7 Get rid of the hardcoded url by using provide.
+#### 2.7 Get rid of the hardcoded url by using provide.
 We want to be able to configure the remote url once.
 ```
 Create a file tokens.ts.
